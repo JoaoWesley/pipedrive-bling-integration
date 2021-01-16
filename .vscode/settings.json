@@ -1,0 +1,35 @@
+{
+    "window.zoomLevel": 0,
+    "workbench.iconTheme": "vscode-icons",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "cSpell.language": "en,pt",
+    "cSpell.userWords": [
+        "credit",
+        "dyno",
+        "entrypoint",
+        "idrebooking",
+        "idrebooking credit",
+        "inversify",
+        "maxmilhas",
+        "middlewares",
+        "rebooking",
+        "up",
+        "wake",
+        "wake up dyno"
+    ],
+    "sync.autoDownload": true,
+    "sync.autoUpload": true,
+    "sync.quietSync": true,
+    "cSpell.enableFiletypes": [
+        "vue"
+    ],
+    "tabnine.experimentalAutoImports": true,
+    "workbench.startupEditor": "newUntitledFile",
+    "explorer.confirmDelete": false,
+    "eslint.codeAction.showDocumentation": {    
+        "enable": true
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    }    
+}
