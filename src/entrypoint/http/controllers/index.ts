@@ -1,3 +1,3 @@
 // Export all controllers here
 
-export * from "./example-controller";
+export * from "./order-controller";

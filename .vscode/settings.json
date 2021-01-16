@@ -31,5 +31,14 @@
     },
     "editor.codeActionsOnSave": {
         "source.fixAll": true
-    }    
+    },
+    "cSpell.words": [
+        "Pipedrive",
+        "apikey",
+        "codigos",
+        "rastreamento"
+    ],
+    "cSpell.ignoreWords": [
+        "jsontoxml"
+    ]
 }

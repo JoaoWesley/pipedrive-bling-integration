@@ -1,2 +1,3 @@
-export { ExampleParams } from "./example-params";
-export { Example } from "./example";
+export { Deal } from "./deal";
+
+export { Order } from "./order";
