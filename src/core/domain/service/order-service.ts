@@ -168,19 +168,16 @@ export class OrderService implements OrderServiceInterface {
   ): Promise<void> {
     const ordersInDb = orderDocumentFound.orders;
 
-    for (let x = 0; x < newOrders.length; x++) {
+    for (let x; x < newOrders.length; x++) {
       ordersInDb.push({
         pedido: newOrders[x].pedido,
       });
     }
 
-    return await this._orderDbRepository.findOneAndUpdate(
-      orderDocumentFound.date,
-      {
-        orders: ordersInDb,
-        total: totalDealsValue + orderDocumentFound.total,
-        date: orderDocumentFound.date,
-      }
-    );
+    await this._orderDbRepository.findOneAndUpdate(orderDocumentFound.date, {
+      orders: ordersInDb,
+      total: totalDealsValue + orderDocumentFound.total,
+      date: orderDocumentFound.date,
+    });
   }
 }

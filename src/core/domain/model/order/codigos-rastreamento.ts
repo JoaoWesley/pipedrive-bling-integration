@@ -1,3 +1,3 @@
 export interface codigosRastreamento {
-  codigos_rastreamento: unknown;
+  codigo_rastreamento: unknown;
 }

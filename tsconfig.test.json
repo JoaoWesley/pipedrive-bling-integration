@@ -1,0 +1,15 @@
+{    
+    "compilerOptions": {
+      "strictPropertyInitialization": false,
+      "strictNullChecks": false,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "rootDir": "./src",
+      "outDir": "./dist",
+      "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
+      "emitDecoratorMetadata": true,    
+      "target": "ES5"
+    },
+    "include": ["./src", "./test"]
+  }
+  

@@ -46,17 +46,18 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Mocha Tests",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "cwd": "${workspaceRoot}",
+      "name": "Mocha Current File",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
-        "${workspaceRoot}/node_modules/mocha/bin/_mocha",
-        "--opts",
-        "${workspaceFolder}/mocha.opts",
+        "--no-timeouts",
+        "--colors",
+        "${file}",
+        "--require",
+        "ts-node/register"
       ],
-      "outputCapture": "std"
-    }
+      "console": "integratedTerminal",
+      "sourceMaps": true,
+      "internalConsoleOptions": "neverOpen"
+}
   ]
 }
