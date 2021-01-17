@@ -7,7 +7,7 @@ import * as sinonChai from "sinon-chai";
 
 chaiUse(sinonChai);
 
-import { Deal, Order } from "../../../../src/core/domain/model/";
+import { Deal, Order } from "../../../../src/core/domain/model";
 import { OrderService } from "../../../../src/core/domain/service";
 
 describe("OrderService. #createOrder", () => {

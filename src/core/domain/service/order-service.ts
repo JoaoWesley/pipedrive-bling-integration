@@ -168,7 +168,7 @@ export class OrderService implements OrderServiceInterface {
   ): Promise<void> {
     const ordersInDb = orderDocumentFound.orders;
 
-    for (let x; x < newOrders.length; x++) {
+    for (let x: number; x < newOrders.length; x++) {
       ordersInDb.push({
         pedido: newOrders[x].pedido,
       });
