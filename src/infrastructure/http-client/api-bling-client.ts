@@ -21,6 +21,15 @@ export class ApiBlingClient implements ApiBlingClientInterface {
       .post(`${this._apiBlingUrl}/pedido/json/`)
       .send(`apikey=${this._apiBlingKey}`)
       .send(`xml=${xml}`);
+
+    if (data.body.retorno.erros && data.body.retorno.erros[0].erro.cod === 30) {
+      throw Error("Erro creating product, product already exists");
+    }
+
+    if (data.body.retorno.erros) {
+      throw Error("Erro creating product");
+    }
+
     return data.body.retorno.pedidos[0];
   }
 }

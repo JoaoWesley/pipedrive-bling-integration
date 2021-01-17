@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CREATED, OK } from "http-status-codes";
+import { CREATED, OK, UNPROCESSABLE_ENTITY } from "http-status-codes";
 import { inject } from "inversify";
 import {
   controller,
@@ -31,9 +31,11 @@ export class OrderController {
       await this._orderService.saveOrder(orders, deals);
 
       return res.status(CREATED).json(orders).end();
-    } catch (err) {
-      const error = err;
-      console.log(err);
+    } catch (error) {
+      return res
+        .status(UNPROCESSABLE_ENTITY)
+        .json({ message: error.message })
+        .end();
     }
   }
 
@@ -42,14 +44,9 @@ export class OrderController {
     @request() req: Request,
     @response() res: Response
   ): Promise<void> {
-    try {
-      const date = req.query.date as string;
-      const orders = await this._orderService.findAllOrders(date);
+    const date = req.query.date as string;
+    const orders = await this._orderService.findAllOrders(date);
 
-      return res.status(OK).json(orders).end();
-    } catch (err) {
-      const error = err;
-      console.log(err);
-    }
+    return res.status(OK).json(orders).end();
   }
 }

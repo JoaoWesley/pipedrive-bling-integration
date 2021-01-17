@@ -1,11 +1,19 @@
 import { inject, injectable } from "inversify";
 import * as jsontoxml from "jsontoxml";
+import * as moment from "moment";
 
-import { INFRA_TYPES, REPOSITORY_TYPES } from "../../../commons/types";
+import {
+  DOMAIN_TYPES,
+  INFRA_TYPES,
+  REPOSITORY_TYPES,
+} from "../../../commons/types";
 import { Deal, Order, OrderDb } from "../model/";
 import { OrderRepository } from "../repository/order-repository";
-import { ApiBlingClientInterface } from "../service/";
-import { OrderServiceInterface } from "../service/";
+import {
+  ApiBlingClientInterface,
+  DealServiceInterface,
+  OrderServiceInterface,
+} from "../service/";
 
 @injectable()
 export class OrderService implements OrderServiceInterface {
@@ -13,7 +21,9 @@ export class OrderService implements OrderServiceInterface {
     @inject(INFRA_TYPES.ApiBlingClient)
     private _apiBlingClient: ApiBlingClientInterface,
     @inject(REPOSITORY_TYPES.OrderDbRepository)
-    private _orderDbRepository: OrderRepository
+    private _orderDbRepository: OrderRepository,
+    @inject(DOMAIN_TYPES.DealService)
+    private _dealService: DealServiceInterface
   ) {}
   async createOrder(deals: Deal[]): Promise<Order[]> {
     const dealsXml = deals.map((deal) => {
@@ -113,47 +123,33 @@ export class OrderService implements OrderServiceInterface {
     });
 
     const ordersCreated = [];
-    try {
-      for (let x = 0; x < dealsXml.length; x++) {
-        const order = await this._apiBlingClient.createOrder(dealsXml[x]);
-        ordersCreated.push(order);
-      }
-    } catch (error) {
-      //   console.log(error.message);
-      //   this._logger.error("Error while trying to get deals.", {
-      //     message,
-      //   });
-      console.log(error);
-      throw error;
+
+    for (let x = 0; x < dealsXml.length; x++) {
+      const order = await this._apiBlingClient.createOrder(dealsXml[x]);
+      ordersCreated.push(order);
     }
 
     return ordersCreated;
   }
 
   async saveOrder(orders: Order[], deals: Deal[]): Promise<void> {
-    // eslint-disable-next-line prettier/prettier
-    const day = new Date((new Date().toISOString())).getDate();
-    const month = new Date(new Date().toISOString()).getMonth() + 1;
-    const year = new Date(new Date().toISOString()).getFullYear();
-
     const orderDocumentFound = await this.findOrderByDate(
-      `${day}-${month}-${year}`
+      moment().utc().format("YYYY-MM-DD")
     );
 
-    let totalDealsValue = 0;
-    deals.forEach((deal) => {
-      totalDealsValue += deal.value;
-    });
-
     if (orderDocumentFound) {
-      await this.updateOrder(orderDocumentFound, orders, totalDealsValue);
+      await this.updateOrder(
+        orderDocumentFound,
+        orders,
+        this._dealService.getTotalDealsValue(deals)
+      );
       return;
     }
 
     await this._orderDbRepository.save({
       orders: orders,
-      total: totalDealsValue,
-      date: `${day}-${month}-${year}`,
+      total: this._dealService.getTotalDealsValue(deals),
+      date: moment().utc().format("YYYY-MM-DD"),
     });
   }
 
