@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "reflect-metadata";
 
 import { expect, use as chaiUse } from "chai";
@@ -8,7 +9,6 @@ chaiUse(sinonChai);
 
 import { Deal, Order } from "../../../../src/core/domain/model/";
 import { OrderService } from "../../../../src/core/domain/service";
-import { DealService } from "../../../../src/core/domain/service";
 
 describe("OrderService. #createOrder", () => {
   let sandbox: sinon.SinonSandbox;

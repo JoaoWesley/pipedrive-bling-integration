@@ -7,7 +7,7 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
-    "emitDecoratorMetadata": true,    
+    "emitDecoratorMetadata": true,
     "target": "ES5"
   },
   "include": ["./src"]
