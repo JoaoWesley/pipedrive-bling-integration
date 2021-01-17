@@ -1,1 +1,1 @@
-export { ExampleRepository } from "./example-repository";
+export { OrderRepository } from "./order-repository";

@@ -16,11 +16,11 @@ export class ApiBlingClient implements ApiBlingClientInterface {
     private _apiBlingKey: string
   ) {}
 
-  public async createOrder(xml: string): Promise<Order[]> {
-    const deals = await this._superagent
+  public async createOrder(xml: string): Promise<Order> {
+    const data = await this._superagent
       .post(`${this._apiBlingUrl}/pedido/json/`)
       .send(`apikey=${this._apiBlingKey}`)
       .send(`xml=${xml}`);
-    return deals.body.retorno.pedidos;
+    return data.body.retorno.pedidos[0];
   }
 }

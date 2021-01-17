@@ -1,7 +1,13 @@
-import { Response } from "express";
-import { CREATED } from "http-status-codes";
+import { Request, Response } from "express";
+import { CREATED, OK } from "http-status-codes";
 import { inject } from "inversify";
-import { controller, httpPost, response } from "inversify-express-utils";
+import {
+  controller,
+  httpGet,
+  httpPost,
+  request,
+  response,
+} from "inversify-express-utils";
 
 import { DOMAIN_TYPES } from "../../../commons/types";
 import { DealService } from "../../../core/domain/service";
@@ -18,10 +24,32 @@ export class OrderController {
 
   @httpPost("/")
   public async create(@response() res: Response): Promise<void> {
-    const deals = await this._dealService.getWonDeals();
+    try {
+      const deals = await this._dealService.getWonDeals();
 
-    const orders = await this._orderService.createOrders(deals);
+      const orders = await this._orderService.createOrder(deals);
+      await this._orderService.saveOrder(orders, deals);
 
-    return res.status(CREATED).json(orders).end();
+      return res.status(CREATED).json(orders).end();
+    } catch (err) {
+      const error = err;
+      console.log(err);
+    }
+  }
+
+  @httpGet("/")
+  public async find(
+    @request() req: Request,
+    @response() res: Response
+  ): Promise<void> {
+    try {
+      const date = req.query.date as string;
+      const orders = await this._orderService.findAllOrders(date);
+
+      return res.status(OK).json(orders).end();
+    } catch (err) {
+      const error = err;
+      console.log(err);
+    }
   }
 }

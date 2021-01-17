@@ -1,7 +1,7 @@
 import { ContainerModule } from "inversify";
 import * as superagent from "superagent";
 
-import { ExampleRepository } from "../../core/domain/repository";
+import { OrderRepository } from "../../core/domain/repository";
 import {
   ApiBlingClientInterface,
   ApiPipedriveClientInterface,
@@ -14,7 +14,7 @@ import {
   ApiBlingClient,
   ApiPipedriveClient,
 } from "../../infrastructure/http-client/";
-import { ExampleDbRepository } from "../../infrastructure/repository/example-repository";
+import { OrderDbRepository } from "../../infrastructure/repository/order-db-repository";
 import { envVariablesConfig } from "../config/";
 import {
   DOMAIN_TYPES,
@@ -39,8 +39,8 @@ export function createIocConfig(): ContainerModule {
     /**
      * Repositories
      */
-    bind<ExampleRepository>(REPOSITORY_TYPES.ExampleDbRepository)
-      .to(ExampleDbRepository)
+    bind<OrderRepository>(REPOSITORY_TYPES.OrderDbRepository)
+      .to(OrderDbRepository)
       .inSingletonScope();
 
     /**

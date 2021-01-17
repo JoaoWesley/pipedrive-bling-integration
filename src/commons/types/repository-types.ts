@@ -1,3 +1,3 @@
 export const REPOSITORY_TYPES = {
-  ExampleDbRepository: Symbol("ExampleDbRepository"),
+  OrderDbRepository: Symbol("OrderDbRepository"),
 };
