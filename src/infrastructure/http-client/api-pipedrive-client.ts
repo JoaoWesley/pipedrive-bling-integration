@@ -17,19 +17,11 @@ export class ApiPipedriveClient implements ApiPipedriveClientInterface {
   ) {}
 
   public async getWonDeals(): Promise<Deal[]> {
-    try {
-      const deals = await this._superagent
-        .get(
-          `${this._pipedriveUrl}/deals?status=won&api_token=${this._apiPipedriveToken}`
-        )
-        .set("Accept", "application/json");
-      return deals.body.data;
-    } catch (error) {
-      //   console.log(error.message);
-      //   this._logger.error("Error while trying to get delas.", {
-      //     message,
-      //   });
-    }
-    return null;
+    const deals = await this._superagent
+      .get(
+        `${this._pipedriveUrl}/deals?status=won&api_token=${this._apiPipedriveToken}`
+      )
+      .set("Accept", "application/json");
+    return deals.body.data;
   }
 }
