@@ -136,19 +136,19 @@ export class OrderService implements OrderServiceInterface {
     const month = new Date(new Date().toISOString()).getMonth() + 1;
     const year = new Date(new Date().toISOString()).getFullYear();
 
-    // const orderDocumentFound = await this.findOrderByDate(
-    //   `${day}-${month}-${year}`
-    // );
+    const orderDocumentFound = await this.findOrderByDate(
+      `${day}-${month}-${year}`
+    );
 
     let totalDealsValue = 0;
     deals.forEach((deal) => {
       totalDealsValue += deal.value;
     });
 
-    // if (orderDocumentFound) {
-    //   await this.updateOrder(orderDocumentFound, orders, totalDealsValue);
-    //   return;
-    // }
+    if (orderDocumentFound) {
+      await this.updateOrder(orderDocumentFound, orders, totalDealsValue);
+      return;
+    }
 
     await this._orderDbRepository.save({
       orders: orders,
@@ -178,10 +178,13 @@ export class OrderService implements OrderServiceInterface {
       });
     }
 
-    this._orderDbRepository.findOneAndUpdate(new Date().toISOString(), {
-      orders: ordersInDb,
-      total: totalDealsValue + orderDocumentFound.total,
-      date: orderDocumentFound.date,
-    });
+    return await this._orderDbRepository.findOneAndUpdate(
+      orderDocumentFound.date,
+      {
+        orders: ordersInDb,
+        total: totalDealsValue + orderDocumentFound.total,
+        date: orderDocumentFound.date,
+      }
+    );
   }
 }
