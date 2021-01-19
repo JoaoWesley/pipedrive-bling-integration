@@ -20,7 +20,7 @@ Integration between pipedrive and bling.
 
   http://localhost:3000
 
-## Requisições
+## Requests
 
 ### - POST orders
 
